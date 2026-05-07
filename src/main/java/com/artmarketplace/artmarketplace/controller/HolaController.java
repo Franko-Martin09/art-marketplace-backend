@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.artmarketplace.artmarketplace.model.Dibujo;
 import com.artmarketplace.artmarketplace.service.DibujoService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
@@ -34,7 +35,7 @@ public class HolaController {
     }
     
     @PostMapping("/dibujos")
-    public Dibujo guardarDibujo(@RequestBody Dibujo dibujo){
+    public Dibujo guardarDibujo(@Valid @RequestBody Dibujo dibujo){
         return dibujoService.guardarDibujo(dibujo);
     }
     
@@ -55,7 +56,7 @@ public class HolaController {
     }
     
     @PutMapping("/dibujos/{id}")
-    public ResponseEntity<Dibujo> actualizarDibujo(@PathVariable Long id, @RequestBody Dibujo dibujoNuevo) {
+    public ResponseEntity<Dibujo> actualizarDibujo(@PathVariable Long id,@Valid @RequestBody Dibujo dibujoNuevo) {
         Dibujo actualizado = dibujoService.actualizarDibujo(id, dibujoNuevo);
         return ResponseEntity.ok(actualizado);
     }

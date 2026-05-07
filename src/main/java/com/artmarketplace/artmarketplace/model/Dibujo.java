@@ -12,14 +12,17 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 @Entity
 public class Dibujo {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+    @NotBlank(message = "El titulo no puede estar vacío")
     private String titulo;
+    @Positive(message = "El precio debe ser mayor a 0")
     private double precio;
     
     public Dibujo() {}
