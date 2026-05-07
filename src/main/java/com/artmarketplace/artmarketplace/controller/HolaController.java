@@ -43,28 +43,21 @@ public class HolaController {
         return dibujoService.listarDibujos();
     }
     @GetMapping("/dibujos/{id}")
-    public ResponseEntity<Dibujo> obtenerDibujoPorId(@PathVariable Long id){
-       Dibujo dibujo = dibujoService.obtenerPorId(id);
-    if(dibujo != null){
+    public ResponseEntity<Dibujo> obtenerDibujoPorId(@PathVariable Long id) {
+        Dibujo dibujo = dibujoService.obtenerPorId(id);
         return ResponseEntity.ok(dibujo);
     }
-    return ResponseEntity.notFound().build();
-    }
     
-    @DeleteMapping("/dibujos/{id}")
+  @DeleteMapping("/dibujos/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-        if(dibujoService.eliminarDibujo(id)){
-            return ResponseEntity.noContent().build();
-        }return ResponseEntity.notFound().build();
+        dibujoService.eliminarDibujo(id);
+        return ResponseEntity.noContent().build();
     }
     
     @PutMapping("/dibujos/{id}")
-    public ResponseEntity<Dibujo> actualizarDibujo(@PathVariable Long id,@RequestBody Dibujo dibujoNuevo){
+    public ResponseEntity<Dibujo> actualizarDibujo(@PathVariable Long id, @RequestBody Dibujo dibujoNuevo) {
         Dibujo actualizado = dibujoService.actualizarDibujo(id, dibujoNuevo);
-        if(actualizado != null){
-            return ResponseEntity.ok(actualizado);
-        }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(actualizado);
     }
 }
         

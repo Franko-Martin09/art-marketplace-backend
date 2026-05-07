@@ -4,6 +4,7 @@
  */
 package com.artmarketplace.artmarketplace.service;
 
+import com.artmarketplace.artmarketplace.exception.RecursoNoEncontradoException;
 import com.artmarketplace.artmarketplace.model.Dibujo;
 import com.artmarketplace.artmarketplace.repository.DibujoRepository;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class DibujoService {
     }
     //metodos:
     public Dibujo obtenerPorId(Long id) {
-     return dibujoRepository.findById(id).orElse(null);
+     return dibujoRepository.findById(id).orElseThrow(() -> new RecursoNoEncontradoException("Dibujo no encontrado con id "+id));
     }
    
     public List<Dibujo> listarDibujos(){
@@ -30,19 +31,18 @@ public class DibujoService {
     public Dibujo guardarDibujo(Dibujo dibujo) {
     return dibujoRepository.save(dibujo);
     }
-    public boolean eliminarDibujo(Long id) {
-    if(dibujoRepository.existsById(id)){
-        dibujoRepository.deleteById(id);
-        return true;
+    public void eliminarDibujo(Long id) {
+    if(!dibujoRepository.existsById(id)){
+        throw new RecursoNoEncontradoException("Dibujo no encontrado con id: " + id);
     }
-    return false;
+    dibujoRepository.deleteById(id);
     }
     
     public Dibujo actualizarDibujo(Long id, Dibujo dibujoNuevo) {
-    if(dibujoRepository.existsById(id)){
-        dibujoNuevo.setId(id);
-        return dibujoRepository.save(dibujoNuevo);
+    if(!dibujoRepository.existsById(id)){
+        throw new RecursoNoEncontradoException("Dibujo no encontrado con id: " + id);
     }
-    return null;
+    dibujoNuevo.setId(id);
+    return dibujoRepository.save(dibujoNuevo);
     }
 }
