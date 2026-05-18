@@ -8,6 +8,7 @@ import com.artmarketplace.artmarketplace.exception.RecursoNoEncontradoException;
 import com.artmarketplace.artmarketplace.model.Dibujo;
 import com.artmarketplace.artmarketplace.repository.DibujoRepository;
 import org.springframework.stereotype.Service;
+import com.artmarketplace.artmarketplace.dto.DibujoDTO;
 import java.util.List;
 /**
  *
@@ -28,9 +29,13 @@ public class DibujoService {
     public List<Dibujo> listarDibujos(){
       return dibujoRepository.findAll();
     }
-    public Dibujo guardarDibujo(Dibujo dibujo) {
-    return dibujoRepository.save(dibujo);
+    public Dibujo guardarDibujo(DibujoDTO dto){
+        Dibujo dibujo = new Dibujo();
+        dibujo.setTitulo(dto.getTitulo());
+        dibujo.setPrecio(dto.getPrecio());
+        return dibujoRepository.save(dibujo);
     }
+   
     public void eliminarDibujo(Long id) {
     if(!dibujoRepository.existsById(id)){
         throw new RecursoNoEncontradoException("Dibujo no encontrado con id: " + id);
